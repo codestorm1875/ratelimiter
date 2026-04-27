@@ -10,6 +10,16 @@ It behaves like a token bucket, but it also tracks a per-caller heat score:
 
 That makes it useful when you want shared capacity, but do not want one noisy tenant to dominate short bursts.
 
+## Stable Version
+
+The current stable release tag is `v0.1.1`.
+
+Use this if you want a pinned version in your `go.mod`:
+
+```bash
+go get github.com/codestorm1875/ratelimiter@v0.1.1
+```
+
 ## How Heat Works
 
 Think of heat as a short-term memory of how aggressive a caller has been recently.
