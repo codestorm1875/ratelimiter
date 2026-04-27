@@ -21,7 +21,7 @@ That makes it useful when you want shared capacity, but do not want one noisy te
 ## Install
 
 ```bash
-go get github.com/codestorm1875/rate-limiter
+go get github.com/codestorm1875/ratelimiter
 ```
 
 ## Quick Start
@@ -33,7 +33,7 @@ import (
 	"fmt"
 	"time"
 
-	ratelimiter "github.com/codestorm1875/rate-limiter"
+	ratelimiter "github.com/codestorm1875/ratelimiter"
 )
 
 func main() {
@@ -80,7 +80,7 @@ import (
 	"net/http"
 	"time"
 
-	ratelimiter "github.com/codestorm1875/rate-limiter"
+	ratelimiter "github.com/codestorm1875/ratelimiter"
 )
 
 func main() {
