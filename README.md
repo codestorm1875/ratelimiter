@@ -29,7 +29,7 @@ In practice, two callers can send the same total number of requests and still be
 ## Install
 
 ```bash
-go get github.com/codestorm1875/ratelimiter
+go get github.com/codestorm1875/ratelimiter@latest
 ```
 
 ## Quick Start
