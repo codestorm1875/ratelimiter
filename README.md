@@ -10,6 +10,14 @@ It behaves like a token bucket, but it also tracks a per-caller heat score:
 
 That makes it useful when you want shared capacity, but do not want one noisy tenant to dominate short bursts.
 
+## How Heat Works
+
+Think of heat as a short-term memory of how aggressive a caller has been recently.
+
+Each accepted request adds heat to that caller. Over time, the heat cools down automatically. `HeatHalfLife` controls that cooling rate: after one half-life, the caller keeps only half of its current heat; after another half-life, half again. `HeatCost` controls how much that stored heat turns into extra delay.
+
+In practice, two callers can send the same total number of requests and still be treated differently if one of them arrives in a burst. The bursty caller accumulates more heat and starts paying an adaptive penalty sooner, while the steadier caller keeps flowing. That is what makes this limiter feel fairer under uneven traffic.
+
 ## Features
 
 - Global token-bucket style rate and burst limits
@@ -139,6 +147,14 @@ Custom options:
 - `MaxKeys`: cap on tracked callers; coldest caller is evicted first
 
 Lower `HeatHalfLife` or `HeatCost` makes the limiter behave closer to a standard token bucket.
+
+## Why Not Just Use `golang.org/x/time/rate`?
+
+`golang.org/x/time/rate` is a good default when all you need is a standard token bucket for one stream of traffic.
+
+This library is aimed at a different problem: shared capacity across many callers where one hot client should not dominate short windows just because tokens happen to be available. A plain token bucket answers "is there capacity right now?" This limiter also asks "has this caller been consuming that capacity more aggressively than others?"
+
+If your traffic is single-tenant or you already create one independent limiter per client, `x/time/rate` is often enough. If you want one shared limiter with adaptive penalties for bursty callers, this heat-based model is the reason to use this library instead.
 
 ## Testing And Benchmarking
 
