@@ -1,0 +1,15 @@
+# Local Codex state
+.codex
+
+# Go build and test artifacts
+bin/
+*.test
+*.out
+*.prof
+coverage.out
+.coverprofile
+
+# Editor and OS noise
+.DS_Store
+.idea/
+.vscode/
