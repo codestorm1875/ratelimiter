@@ -1,5 +1,3 @@
-# Pulse Rate Limiter
-
 `ratelimiter` is a Go library for global rate control with caller fairness.
 
 It behaves like a token bucket, but it also tracks a per-caller heat score:
