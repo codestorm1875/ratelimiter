@@ -29,7 +29,7 @@ In practice, two callers can send the same total number of requests and still be
 ## Install
 
 ```bash
-go get github.com/codestorm1875/ratelimiter
+go get github.com/codestorm1875/rate-limiter
 ```
 
 ## Quick Start
@@ -41,7 +41,7 @@ import (
 	"fmt"
 	"time"
 
-	ratelimiter "github.com/codestorm1875/ratelimiter"
+	ratelimiter "github.com/codestorm1875/rate-limiter"
 )
 
 func main() {
@@ -88,7 +88,7 @@ import (
 	"net/http"
 	"time"
 
-	ratelimiter "github.com/codestorm1875/ratelimiter"
+	ratelimiter "github.com/codestorm1875/rate-limiter"
 )
 
 func main() {
