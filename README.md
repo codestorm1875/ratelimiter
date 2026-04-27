@@ -95,25 +95,27 @@ func main() {
 		panic(err)
 	}
 
-	middleware := ratelimiter.NewMiddleware(
-		limiter,
-		ratelimiter.WithKeyFunc(func(r *http.Request) string {
-			if userID := r.Header.Get("X-User-ID"); userID != "" {
-				return userID
-			}
-			return ratelimiter.RemoteIPKey(r)
-		}),
-	)
-
-	http.Handle("/api", middleware.Handler(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+	http.Handle("/api", limiter.Middleware(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		if decision, ok := ratelimiter.DecisionFromContext(r.Context()); ok {
 			_ = decision
 		}
 		w.Write([]byte("ok"))
+	}), ratelimiter.WithKeyFunc(func(r *http.Request) string {
+		if userID := r.Header.Get("X-User-ID"); userID != "" {
+			return userID
+		}
+		return ratelimiter.RemoteIPKey(r)
 	})))
 
 	http.ListenAndServe(":8080", nil)
 }
+```
+
+If you want the explicit builder form, you can still use:
+
+```go
+middleware := ratelimiter.NewMiddleware(limiter)
+http.Handle("/api", middleware.Handler(myHandler))
 ```
 
 Default middleware behavior:

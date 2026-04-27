@@ -87,6 +87,11 @@ func (m *Middleware) Handler(next http.Handler) http.Handler {
 	})
 }
 
+// Middleware wraps the next handler with rate limiting.
+func (l *Limiter) Middleware(next http.Handler, opts ...MiddlewareOption) http.Handler {
+	return NewMiddleware(l, opts...).Handler(next)
+}
+
 // DecisionFromContext returns the limiter decision stored by Middleware.
 func DecisionFromContext(ctx context.Context) (Decision, bool) {
 	decision, ok := ctx.Value(decisionContextKey).(Decision)
